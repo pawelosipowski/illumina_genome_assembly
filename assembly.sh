@@ -3,14 +3,20 @@
 #folder should contain paired fastq files named like this:
 #<read_name>_fw.fq <read_name>_rv.fq
 
+#in ./soft al the necessary software is already compiled on local server
+
 #SYNOPSIS
-./assembly.sh read_name
+#./assembly.sh <read_name> 2&> <read_name>.err
+
 mkdir ./"$1"/
+
 #read adapter trimming, quality trimming and to Phred33 conversion:
 #trimmomatic: http://www.usadellab.org/cms/index.php?page=trimmomatic
-java -jar ./soft/Trimmomatic-0.32/trimmomatic-0.32.jar PE -phre ./"$1"_fw.fq ./"$1"_rv.fq ./"$1"/tt_"$1"_fw.fq ./"$1"/tt_"$1"_fw_unpaired.fq ./"$1"/tt_"$1"_rv.fq ./"$1"/tt_"$1"_rv_unpaired.fq ILLUMINACLIP:TruSeq3-PE.fa:2:30:15 TRAILING:30 MINLEN:50
+
+java -jar ./soft/Trimmomatic-0.35/trimmomatic-0.35.jar PE ./"$1"_fw.fq ./"$1"_rv.fq ./"$1"/tt_"$1"_fw.fq ./"$1"/tt_"$1"_fw_unpaired.fq ./"$1"/tt_"$1"_rv.fq ./"$1"/tt_"$1"_rv_unpaired.fq ILLUMINACLIP:TruSeq3-PE.fa:2:30:15 TRAILING:30 MINLEN:50
 #mv ./"$1"_fw.fq ./"$1"/
 #mv ./"$1"_rv.fq ./"$1"/
+
 #truseq adapter trimming
 #bbmap
 #./soft/bbmap/bbduk.sh in1="$1"_fw.fq in2="$1"_rv.fq out1="$1"_fw_clean.fq  out2="$1"_rv_clean.fq ref=./soft/bbmap/resources/truseq.fa.gz ktrim=r k=25 mink=11 hdist=1 tpe tbo
