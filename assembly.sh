@@ -40,5 +40,8 @@ echo q=./"$1"/"$1"_rv_unpaired_ecc.fq >> ./"$1"/"$1"_soap.config
 #Corrector_HA -k 23 -l 2 -e 1 -w 1 -q 30 -t 20 -Q 64 -o 3 b10_tt_23mer.freq.gz ../read.lst
 
 #soapdenovo contig assembly
-./soft/SOAPdenovo2-bin-LINUX-generic-r240/SOAPdenovo-127mer pregraph_sparse -s ./"$1"/"$1"_soap.config -K 13 -m 99 -g 15 -z 400000000 -d 5 -e 1 -R -r 0 -p 8 -o ./"$1"/soap_"$1"_graph
-./soft/SOAPdenovo2-bin-LINUX-generic-r240/SOAPdenovo-127mer contig -g ./"$1"/soap_"$1"_graph
+./soft/SOAPdenovo2-bin-LINUX-generic-r240/SOAPdenovo-127mer pregraph -s ./"$1"/"$1"_soap.config -R -p 20 -o ./"$1"/soap_"$1"_graph 1>./"$1"/soap_"$1"_pregraph.log #2>./"$1"/soap_"$1"_pregraph.err
+./soft/SOAPdenovo2-bin-LINUX-generic-r240/SOAPdenovo-127mer contig -s ./"$1"/"$1"_soap.config -p 20 -g ./"$1"/soap_"$1"_graph -m 99 -R 1>./"$1"/soap_"$1"_contig.log #2>./"$1"/soap_"$1"_contig.err
+
+#assembly statistics
+perl ./soft/NGSQCToolkit_v2.3.3/Statistics/N50Stat.pl -i soap_"$1"_graph.contig -o "$1"_contig.stats
