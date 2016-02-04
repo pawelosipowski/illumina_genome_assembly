@@ -10,7 +10,7 @@
 
 mkdir ./"$1"/
 
-#read adapter trimming, quality trimming and to Phred33 conversion:
+#read adapter trimming, quality trimming:
 #trimmomatic: http://www.usadellab.org/cms/index.php?page=trimmomatic
 
 java -jar ./soft/Trimmomatic-0.35/trimmomatic-0.35.jar PE ./"$1"_fw.fq ./"$1"_rv.fq ./"$1"/tt_"$1"_fw.fq ./"$1"/tt_"$1"_fw_unpaired.fq ./"$1"/tt_"$1"_rv.fq ./"$1"/tt_"$1"_rv_unpaired.fq ILLUMINACLIP:./soft/Trimmomatic-0.35/adapters/TruSeq3-PE.fa:2:30:15 TRAILING:30 MINLEN:50
@@ -21,11 +21,11 @@ java -jar ./soft/Trimmomatic-0.35/trimmomatic-0.35.jar PE ./"$1"_fw.fq ./"$1"_rv
 #bbmap
 #./soft/bbmap/bbduk.sh in1="$1"_fw.fq in2="$1"_rv.fq out1="$1"_fw_clean.fq  out2="$1"_rv_clean.fq ref=./soft/bbmap/resources/truseq.fa.gz ktrim=r k=25 mink=11 hdist=1 tpe tbo
 
-#read normalization, kmer error correction and kmer distribution histograms
+#read kmer error correction and read kmer distribution histograms
 #bbmap
-./soft/bbmap/bbnorm.sh in=./"$1"/tt_"$1"_fw.fq in2=./"$1"/tt_"$1"_rv.fq out1=./"$1"/ecc_"$1"_fw.fq out2=./"$1"/ecc_"$1"_rv.fq target=40 mindepth=3 ecc cec=t hist=./"$1"/kmer_"$1"_in_hist histout=./"$1"/kmer_"$1"_out_hist
-./soft/bbmap/bbnorm.sh in=./"$1"/tt_"$1"_fw_unpaired.fq  out=./"$1"/ecc_"$1"_fw_unpaired.fq target=40 mindepth=3 ecc cec=t hist=./"$1"/kmer_"$1"_up_fw_in_hist histout=./"$1"/kmer_"$1"_up_fw_out_hist
-./soft/bbmap/bbnorm.sh in=./"$1"/tt_"$1"_rv_unpaired.fq  out=./"$1"/ecc_"$1"_rv_unpaired.fq target=40 mindepth=3 ecc cec=t hist=./"$1"/kmer_"$1"_up_rv_in_hist histout=./"$1"/kmer_"$1"_up_rv_out_hist
+./soft/bbmap/ecc.sh in=./"$2"/tt_"$2"_fw.fq in2=./"$2"/tt_"$2"_rv.fq out1=./"$2"/ecc_"$2"_fw.fq out2=./"$2"/ecc_"$2"_rv.fq cec=t hist=./"$2"/bbmap_kmer_"$2"_in_hist histout=./"$2"/bbmap_kmer_"$2"_out_hist
+./soft/bbmap/ecc.sh in=./"$1"/tt_"$1"_fw_unpaired.fq  out=./"$1"/ecc_"$1"_fw_unpaired.fq cec=t hist=./"$1"/kmer_"$1"_up_fw_in_hist histout=./"$1"/kmer_"$1"_up_fw_out_hist
+./soft/bbmap/ecc.sh in=./"$1"/tt_"$1"_rv_unpaired.fq  out=./"$1"/ecc_"$1"_rv_unpaired.fq cec=t hist=./"$1"/kmer_"$1"_up_rv_in_hist histout=./"$1"/kmer_"$1"_up_rv_out_hist
 
 #creating soapdenovo config file from template
 #template is set on 100bp long reads and 300bp insert size
