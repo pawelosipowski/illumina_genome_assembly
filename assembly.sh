@@ -23,7 +23,7 @@ java -jar ./soft/Trimmomatic-0.35/trimmomatic-0.35.jar PE ./"$1"_fw.fq ./"$1"_rv
 
 #read kmer error correction and read kmer distribution histograms
 #bbmap
-./soft/bbmap/ecc.sh in=./"$2"/tt_"$2"_fw.fq in2=./"$2"/tt_"$2"_rv.fq out1=./"$2"/ecc_"$2"_fw.fq out2=./"$2"/ecc_"$2"_rv.fq cec=t hist=./"$2"/bbmap_kmer_"$2"_in_hist histout=./"$2"/bbmap_kmer_"$2"_out_hist
+./soft/bbmap/ecc.sh in=./"$1"/tt_"$1"_fw.fq in2=./"$1"/tt_"$1"_rv.fq out1=./"$1"/ecc_"$1"_fw.fq out2=./"$1"/ecc_"$1"_rv.fq cec=t hist=./"$1"/bbmap_kmer_"$1"_in_hist histout=./"$1"/bbmap_kmer_"$1"_out_hist
 ./soft/bbmap/ecc.sh in=./"$1"/tt_"$1"_fw_unpaired.fq  out=./"$1"/ecc_"$1"_fw_unpaired.fq cec=t hist=./"$1"/kmer_"$1"_up_fw_in_hist histout=./"$1"/kmer_"$1"_up_fw_out_hist
 ./soft/bbmap/ecc.sh in=./"$1"/tt_"$1"_rv_unpaired.fq  out=./"$1"/ecc_"$1"_rv_unpaired.fq cec=t hist=./"$1"/kmer_"$1"_up_rv_in_hist histout=./"$1"/kmer_"$1"_up_rv_out_hist
 
